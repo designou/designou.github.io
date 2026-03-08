@@ -123,18 +123,78 @@
     <h2>Solicitar Orçamento</h2>
 
     <div class="form">
+      <div id="formMensagem" class="form-message"></div>
+
       <input id="nome" name="nome" type="text" placeholder="Seu nome">
 
       <select id="servico" name="servico">
-        <option value="">Selecione o serviço</option>
-        <option value="Carga e Descarga">Carga e Descarga</option>
-        <option value="Separação de Produtos">Separação de Produtos</option>
-        <option value="Embalagem de Produtos">Embalagem de Produtos</option>
-        <option value="Limpeza Empresarial">Limpeza Empresarial</option>
-        <option value="Segurança para Eventos">Segurança para Eventos</option>
+        <option>Selecione o serviço</option>
+        <option>Carga e Descarga</option>
+        <option>Separação de Produtos</option>
+        <option>Embalagem de Produtos</option>
+        <option>Limpeza Empresarial</option>
+        <option>Segurança para Eventos</option>
       </select>
 
-      <input id="func" name="func" type="text" placeholder="Quantidade de funcionários">
+      <select id="localizacao" name="localizacao">
+        <option>Selecione a localização</option>
+        <option>Campinas</option>
+        <option>Sumaré</option>
+        <option>Hortolândia</option>
+      </select>
+
+      <select id="quantidade" name="quantidade">
+        <option>Selecione a quantidade</option>
+        <option>1 funcionário</option>
+        <option>2 funcionários</option>
+        <option>3 funcionários</option>
+        <option>4 funcionários</option>
+        <option>5 funcionários</option>
+        <option>6 funcionários</option>
+        <option>7 funcionários</option>
+        <option>8 funcionários</option>
+        <option>9 funcionários</option>
+        <option>10 funcionários</option>
+        <option>11 funcionários</option>
+        <option>12 funcionários</option>
+        <option>13 funcionários</option>
+        <option>14 funcionários</option>
+        <option>15 funcionários</option>
+        <option>16 funcionários</option>
+        <option>17 funcionários</option>
+        <option>18 funcionários</option>
+        <option>19 funcionários</option>
+        <option>20 funcionários</option>
+        <option>21 funcionários</option>
+        <option>22 funcionários</option>
+        <option>23 funcionários</option>
+        <option>24 funcionários</option>
+        <option>25 funcionários</option>
+        <option>26 funcionários</option>
+        <option>27 funcionários</option>
+        <option>28 funcionários</option>
+        <option>29 funcionários</option>
+        <option>30 funcionários</option>
+      </select>
+
+      <select id="dias" name="dias">
+        <option>Selecione a duração do serviço</option>
+        <option>1 dia</option>
+        <option>2 dias</option>
+        <option>3 dias</option>
+        <option>4 dias</option>
+        <option>5 dias</option>
+        <option>6 dias</option>
+        <option>1 semana</option>
+        <option>Mais de uma semana</option>
+      </select>
+
+      <select id="diaria" name="diaria">
+        <option>Selecione o valor da diária</option>
+        <option>R$80 a R$100</option>
+        <option>R$105 a R$180</option>
+        <option>R$200+</option>
+      </select>
 
       <button id="botaoOrcamento" type="button">
         Enviar orçamento pelo WhatsApp
@@ -160,8 +220,10 @@
 
     <div>
       <h4>Contato</h4>
-      <p>WhatsApp: (19) 99373-4847</p>
+      <p>WhatsApp: (19) 98816-9447</p>
       <p>Instagram: @terceirizagroup</p>
+      <p>Email: terceirizagroup.contato@gmail.com</p>
+	  <p>CNPJ: 65.548.532/0001-03</p>
       <p><a href="sobre.html">Sobre</a></p>
       <p><a href="termos.html">Termos</a></p>
     </div>
@@ -169,7 +231,7 @@
   </div>
 </footer>
 
-<a class="whatsapp-float" href="https://wa.me/5519993734847" target="_blank" aria-label="WhatsApp">
+<a class="whatsapp-float" href="https://wa.me/5519988169447" target="_blank" aria-label="WhatsApp">
   <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
     <path d="M20.52 3.48A11.94 11.94 0 0012.05 0C5.48 0 .12 5.35.12 11.94c0 2.11.55 4.17 1.6 6L0 24l6.24-1.63a11.9 11.9 0 005.8 1.48h.01c6.57 0 11.93-5.35 11.94-11.94a11.9 11.9 0 00-3.47-8.43z"/>
   </svg>
@@ -180,54 +242,109 @@ document.addEventListener("DOMContentLoaded", function () {
   const botao = document.getElementById("botaoOrcamento");
   const nomeEl = document.getElementById("nome");
   const servicoEl = document.getElementById("servico");
-  const funcEl = document.getElementById("func");
+  const localizacaoEl = document.getElementById("localizacao");
+  const quantidadeEl = document.getElementById("quantidade");
+  const diasEl = document.getElementById("dias");
+  const diariaEl = document.getElementById("diaria");
+  const mensagemEl = document.getElementById("formMensagem");
 
-  if (!botao || !nomeEl || !servicoEl || !funcEl) {
-    console.error("Campos do formulário não encontrados.");
-    return;
+  const campos = [nomeEl, servicoEl, localizacaoEl, quantidadeEl, diasEl, diariaEl];
+
+  function mostrarErro(texto, campo) {
+    mensagemEl.textContent = texto;
+    mensagemEl.style.display = "block";
+    mensagemEl.className = "form-message error";
+
+    campos.forEach(function(el) {
+      el.classList.remove("input-error");
+    });
+
+    if (campo) {
+      campo.classList.add("input-error");
+      campo.focus();
+    }
   }
 
-  botao.addEventListener("click", function () {
+  function limparErro() {
+    mensagemEl.textContent = "";
+    mensagemEl.style.display = "none";
+    mensagemEl.className = "form-message";
+
+    campos.forEach(function(el) {
+      el.classList.remove("input-error");
+    });
+  }
+
+  campos.forEach(function(el) {
+    el.addEventListener("change", limparErro);
+    el.addEventListener("input", limparErro);
+  });
+
+  botao.addEventListener("click", function() {
     const nome = nomeEl.value.trim();
-    const servico = servicoEl.value.trim();
-    const func = funcEl.value.trim();
 
-    if (nome === "") {
-      alert("✏️ Por favor, escreva seu nome para continuarmos.");
-      nomeEl.focus();
+    const servico = servicoEl.options[servicoEl.selectedIndex].text.trim();
+    const localizacao = localizacaoEl.options[localizacaoEl.selectedIndex].text.trim();
+    const quantidade = quantidadeEl.options[quantidadeEl.selectedIndex].text.trim();
+    const dias = diasEl.options[diasEl.selectedIndex].text.trim();
+    const diaria = diariaEl.options[diariaEl.selectedIndex].text.trim();
+
+    if (!nome) {
+      mostrarErro("Digite seu nome.", nomeEl);
       return;
     }
 
-    if (servico === "") {
-      alert("🛠️ Selecione o serviço desejado.");
-      servicoEl.focus();
+    if (servico === "Selecione o serviço") {
+      mostrarErro("Selecione o serviço.", servicoEl);
       return;
     }
 
-    if (func === "") {
-      alert("👷 Informe a quantidade de funcionários necessários.");
-      funcEl.focus();
+    if (localizacao === "Selecione a localização") {
+      mostrarErro("Selecione a localização.", localizacaoEl);
       return;
     }
+
+    if (quantidade === "Selecione a quantidade") {
+      mostrarErro("Selecione a quantidade de funcionários.", quantidadeEl);
+      return;
+    }
+
+    if (dias === "Selecione a duração do serviço") {
+      mostrarErro("Selecione por quantos dias o serviço será necessário.", diasEl);
+      return;
+    }
+
+    if (diaria === "Selecione o valor da diária") {
+      mostrarErro("Selecione o valor da diária.", diariaEl);
+      return;
+    }
+
+    limparErro();
 
     const agora = new Date();
     const hora = agora.getHours().toString().padStart(2, "0");
     const minuto = agora.getMinutes().toString().padStart(2, "0");
 
-    const texto = `*📋 ORÇAMENTO DE SERVIÇOS*
-━━━━━━━━━━━━━━━
+    const texto = `*TERCEIRIZA GROUP — ORÇAMENTO DE SERVIÇOS*
+━━━━━━━━━━━━━━━━━━━━━━━━
 
-> *👤 Nome:* ${nome}
-> *🛠 Serviço desejado:* ${servico}
-> *👷 Quantidade de funcionários:* ${func}
+*Dados da Solicitação*
 
-━━━━━━━━━━━━━━━
-🕒 *Pedido enviado às:* ${hora}:${minuto}
+Nome: ${nome}
+Serviço solicitado: ${servico}
+Localização: ${localizacao}
 
-🌐 *Solicitação enviada pelo site da Terceiriza Group*`;
+Quantidade de funcionários: ${quantidade}
+Duração do serviço: ${dias}
+Valor da diária: ${diaria}
 
-    const url = "https://wa.me/5519993734847?text=" + encodeURIComponent(texto);
-    window.location.href = url;
+━━━━━━━━━━━━━━━━━━━━━━━━
+Pedido enviado às: ${hora}:${minuto}
+
+Solicitação enviada através do site da Terceiriza Group`;
+
+    const url = "https://wa.me/5519988169447?text=" + encodeURIComponent(texto);
+    window.open(url, "_blank");
   });
 });
 </script>

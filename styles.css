@@ -19,6 +19,9 @@ font-family:Inter,sans-serif;
 --borda:rgba(30,58,95,.10);
 --sombra:0 10px 30px rgba(0,0,0,.08);
 --sombra-forte:0 14px 35px rgba(17,79,134,.16);
+--erro-bg:rgba(220,38,38,.08);
+--erro-texto:#b91c1c;
+--erro-borda:rgba(220,38,38,.20);
 }
 
 html{
@@ -258,7 +261,7 @@ font-size:16px;
 }
 
 .form{
-max-width:560px;
+max-width:620px;
 margin:auto;
 display:flex;
 flex-direction:column;
@@ -268,6 +271,23 @@ padding:28px;
 border-radius:18px;
 box-shadow:var(--sombra-forte);
 border:1px solid rgba(28,111,184,.08);
+}
+
+.form-message{
+display:none;
+width:100%;
+padding:14px 16px;
+border-radius:12px;
+font-size:14px;
+font-weight:600;
+line-height:1.5;
+}
+
+.form-message.error{
+display:block;
+background:var(--erro-bg);
+color:var(--erro-texto);
+border:1px solid var(--erro-borda);
 }
 
 .form input,
@@ -296,6 +316,11 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 background-repeat:no-repeat;
 background-position:right 14px center;
 padding-right:42px;
+}
+
+.input-error{
+border-color:#dc2626 !important;
+box-shadow:0 0 0 4px rgba(220,38,38,.10) !important;
 }
 
 .form button{
@@ -407,6 +432,7 @@ justify-content:center;
 
 .form{
 padding:22px;
+max-width:100%;
 }
 
 }
